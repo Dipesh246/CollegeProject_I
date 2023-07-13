@@ -1,0 +1,42 @@
+<!-- home.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Pocket Budget Management System</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+  <style>
+    /* Inline styles for logo */
+    .logo img {
+      height: 50px;
+      width: 50px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+        <h1>Student Budget</h1>
+      </div>
+      <div class="buttons">
+        <a href="{% url 'signin' %}" class="btn">Sign In</a>
+        <a href="{% url 'register' %}" class="btn">Register</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h2>Manage Your Student Budget</h2>
+      <p>Take control of your finances with our pocket budget management system.</p>
+      <a href="{% url 'signin' %}" class="btn">Get Started</a>
+    </section>
+    <section class="description">
+      <h2>About Us</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at pulvinar tellus. Sed scelerisque risus a sem scelerisque, sed venenatis risus fringilla.</p>
+    </section>
+  </main>
+</body>
+</html>
