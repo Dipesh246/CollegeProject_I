@@ -1,0 +1,42 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Budget Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="dashboardstyle.css">
+</head>
+<body>
+  <header>
+    <h1>Student Budget Dashboard</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Expenses</a></li>
+        <li><a href="#">Savings</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </nav>
+    
+    <button id="logout-button">Logout</button>
+  </header>
+  <main>
+    <div class="container">
+      <div class="card total-budget-card">
+        <h2>Total Budget</h2>
+        <canvas></canvas>
+      </div>
+      <div class="card expenses-card">
+        <h2>Expenses</h2>
+        <canvas></canvas>
+      </div>
+      <div class="card savings-card">
+        <h2>Savings</h2>
+        <canvas></canvas>
+      </div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="dashboardscript.js"></script>
+</body>
+</html>
