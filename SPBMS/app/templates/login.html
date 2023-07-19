@@ -10,7 +10,15 @@
 </head>
 <body>
     <div class="container">
-        <form class="login-form">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form class="login-form" method="POST">
+            {% csrf_token %}
             <h2>Login</h2>
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
@@ -20,7 +28,10 @@
             
             <button type="submit">Login</button>
 
-            
+            <div class="additional-options">
+                <a href="#">Forgot Password?</a> 
+                <p> New? <a href="{% url 'register' %}">Register</a> here.</p>
+            </div>
         </form>
     </div>
 </body>

@@ -1,13 +1,15 @@
 .container {
-    width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f0f0f0;
-  }
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
   
-  h1 {
-    text-align: center;
-  }
+.registration-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
   
   label {
     display: block;
@@ -15,16 +17,16 @@
   }
   
   input[type="text"],
+  input[type="password"],
   input[type="number"],
   input[type="tel"],
   select,
-  textarea,
   input[type="file"] {
     width: 100%;
-    padding: 5px;
-    font-size: 16px;
-    border-radius: 5px;
+    padding: 8px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
+    border-radius: 4px;
   }
   
   input[type="submit"] {
@@ -37,6 +39,7 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
+    cursor: pointer;
   }
   
   input[type="submit"]:hover {
@@ -48,5 +51,9 @@
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
+  }
+  .registration-form .error-message {
+    color: red;
+    margin-top: 5px;
   }
   

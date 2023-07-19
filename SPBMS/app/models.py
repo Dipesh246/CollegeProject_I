@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser,Group, Permission
 class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_picture/', blank=True)
     registration_date = models.DateField(auto_now_add=True)
+    phone_number = models.BigIntegerField(blank=True,null=True)
     groups = models.ManyToManyField(Group, related_name='app_users')
     user_permissions = models.ManyToManyField(Permission, related_name='app_users')
 
