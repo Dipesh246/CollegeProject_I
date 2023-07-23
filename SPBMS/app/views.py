@@ -20,13 +20,13 @@ def logIn(request):
 
         if not User.objects.filter(username=username).exists():
             messages.error(request,'Invalid username')
-            return redirect(reverse('signin'))
+            return redirect('signin')
         
         user = authenticate(username=username,password=password)
 
         if user is None:
             messages.error(request, 'Invalid password')
-            return redirect(reverse('signin'))
+            return redirect('signin')
         
         else:
             login(request,user)
@@ -41,7 +41,7 @@ def checkUsername(request):
 
 def logOut(request):
     logout(request)
-    return redirect(reverse('home'))
+    return redirect('home')
 
 def register(request):
     if request.method == "POST":
@@ -73,3 +73,6 @@ def register(request):
 @login_required(login_url='/login/')
 def dashboard(request):
     return render(request,'dashboard.html') 
+
+def budget(request):
+    return render(request, 'budget.html')

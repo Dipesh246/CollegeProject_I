@@ -26,4 +26,5 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('dashboard/',dashboard, name = 'dashboard'),
     path('checkunique/', checkUsername, name='checkunique'),
+    path('createbudget/',budget, name='budget'),
 ]

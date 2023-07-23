@@ -5,38 +5,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-header {
-  background-color: #45a049;
-  color: #fff;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header h1 {
-  margin: 0;
-  }
-
-.menu {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.menu li {
-  margin-right: 20px;
-}
-
-.menu li a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-}
-
 .container {
   display: flex;
   justify-content: space-around;
@@ -54,12 +22,4 @@ header h1 {
   margin-bottom: 20px;
 }
 
-button {
-  background-color: #939654;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
 

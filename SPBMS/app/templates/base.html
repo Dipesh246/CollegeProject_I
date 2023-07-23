@@ -3,34 +3,29 @@
 <html>
 <head>
   <title>Student Pocket Budget Management System</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
   {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
-  <style>
-    /* Inline styles for logo */
-    .logo img {
-      height: 50px;
-      width: 50px;
-      margin-right: 10px;
-    }
-  </style>
-{% endblock %}
+  {% endblock %}
 </head>
 <body>
   <header>
     {% if user.is_authenticated %}
-
-    <h1>Dashboard</h1>
     <nav>
+      <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+        <h1>Dashboard</h1>
+      </div>
       <ul class="menu">
-        <li><a href="#">Home</a></li>
+        <li><a href="{% url 'dashboard' %}">Home</a></li>
         <li><a href="#">Expenses</a></li>
         <li><a href="#">Savings</a></li>
         <li><a href="#">Reports</a></li>
         <li><a href="#">Settings</a></li>
       </ul>
+      <a href="{% url 'logout' %}" class="logout-link" >Logout</a>
     </nav>
     
-    <a href="{% url 'logout' %}" class="logout-link" style="color: yellow; text-decoration: none;">Logout</a>
+    
   
     {% else %}
   

@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+  }
+
+ 
+
+  h1 {
+    margin: 0;
+  }
+
+  main {
+    padding: 20px;
+  }
+
+  .budget-form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .budget-form label,
+  .budget-form input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .budget-form input[type="number"] {
+    padding: 10px;
+  }
+
+  .budget-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }

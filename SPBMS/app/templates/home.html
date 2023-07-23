@@ -1,5 +1,10 @@
 <!-- home.html -->
 {% extends 'base.html' %}
+{% load static %}
+{% block style %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock style %}
 {% block start %}
   <main>
     <section class="hero">
