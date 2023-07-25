@@ -63,7 +63,8 @@ def register(request):
         )
         if profile_picture:
             user.profile_picture = profile_picture
-            user.save()
+
+        user.save()
 
         messages.success(request,"User Registered")
         return redirect('signin')
@@ -75,4 +76,11 @@ def dashboard(request):
     return render(request,'dashboard.html') 
 
 def budget(request):
-    return render(request, 'budget.html')
+    if request.method == "POST":
+        monthly_income = request.POST.get('monthly-income')
+        total_expenses = request.POST.get('total-expenses')
+        category_name = request.POST.get('category-name')
+        
+
+
+    return render(request, 'expense.html')

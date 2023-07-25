@@ -14,10 +14,9 @@ class User(AbstractUser):
 class Budeget(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     budget_name = models.CharField(max_length=100)
+    monthly_income = models.DecimalField(max_digits=10,decimal_places=2)
     total_budget_amount = models.DecimalField(max_digits=10,decimal_places=2)
-    start_date = models.DateField()
-    end_date = models.DateField()
-
+    
     def __str__(self) -> str:
         return self.budget_name
     
@@ -28,48 +27,48 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.category_name
     
-class Expense(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    budget = models.ForeignKey(Budeget, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    expense_name = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10,decimal_places=2)
-    date = models.DateField()
+# class Expense(models.Model):
+#     user = models.ForeignKey(User,on_delete=models.CASCADE)
+#     budget = models.ForeignKey(Budeget, on_delete=models.CASCADE)
+#     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+#     expense_name = models.CharField(max_length=100)
+#     amount = models.DecimalField(max_digits=10,decimal_places=2)
+#     date = models.DateField()
 
-    def __str__(self) -> str:
-        return self.expense_name
+#     def __str__(self) -> str:
+#         return self.expense_name
     
-class Goal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    goal_name = models.CharField(max_length=100)
-    target_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    start_date = models.DateField()
-    end_date = models.DateField()
+# class Goal(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     goal_name = models.CharField(max_length=100)
+#     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     start_date = models.DateField()
+#     end_date = models.DateField()
 
-    def __str__(self) -> str:
-        return self.goal_name
+#     def __str__(self) -> str:
+#         return self.goal_name
     
-class Saving(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    saving_name = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField()
+# class Saving(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     saving_name = models.CharField(max_length=100)
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     date = models.DateField()
 
-    def __str__(self):
-        return self.saving_name
+#     def __str__(self):
+#         return self.saving_name
 
-class Transaction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    TYPE_CHOICES = (
-        ('income', 'Income'),
-        ('expense', 'Expense'),
-    )
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField()
+# class Transaction(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     TYPE_CHOICES = (
+#         ('income', 'Income'),
+#         ('expense', 'Expense'),
+#     )
+#     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     date = models.DateField()
 
-    def __str__(self):
-        return f'{self.type} - {self.amount}'
+#     def __str__(self):
+#         return f'{self.type} - {self.amount}'
     
 # class Reminder(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)

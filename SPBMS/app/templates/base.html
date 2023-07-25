@@ -13,12 +13,14 @@
     <nav>
       <div class="logo">
         <img src="{% static 'images/logo.png' %}" alt="Logo">
-        <h1>Dashboard</h1>
+        <h1>{% block headerh1 %}
+        {% endblock headerh1 %}
+        </h1>
       </div>
       <ul class="menu">
         <li><a href="{% url 'dashboard' %}">Home</a></li>
-        <li><a href="#">Expenses</a></li>
-        <li><a href="#">Savings</a></li>
+        <li><a href="{% url 'budget' %}">Expenses</a></li>
+        <li><a href="#">Goals</a></li>
         <li><a href="#">Reports</a></li>
         <li><a href="#">Settings</a></li>
       </ul>

@@ -1,0 +1,70 @@
+/* expense.css */
+main {
+  display: flex;  
+  justify-content: space-around;
+}
+
+.budget-form,
+.category-form,
+.budget-allocation-form {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 10px;
+  width: 30%;
+}
+
+.budget-form h2,
+.category-form h2,
+.budget-allocation-form h2 {
+  margin-top: 0;
+}
+
+.budget-form form,
+.category-form form,
+.budget-allocation-form form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.budget-form label,
+.category-form label,
+.budget-allocation-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.budget-form input[type="number"],
+.category-form input[type="text"],
+.budget-allocation-form input[type="number"],
+.budget-allocation-form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.budget-form button,
+.category-form button,
+.budget-allocation-form button {
+  padding: 10px;
+  background-color: #36a2eb;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.budget-form button:hover,
+.category-form button:hover,
+.budget-allocation-form button:hover {
+  background-color: #007bff;
+}
+
+.category-form select,
+.budget-allocation-form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
