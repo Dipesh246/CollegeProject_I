@@ -13,9 +13,9 @@ class User(AbstractUser):
     
 class Budeget(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    budget_name = models.CharField(max_length=100)
+    budget_name = models.CharField(max_length=100,default=None)
     monthly_income = models.DecimalField(max_digits=10,decimal_places=2)
-    total_budget_amount = models.DecimalField(max_digits=10,decimal_places=2)
+    
     
     def __str__(self) -> str:
         return self.budget_name
@@ -23,6 +23,8 @@ class Budeget(models.Model):
 class Category(models.Model):
     budget = models.ForeignKey(Budeget,on_delete=models.CASCADE)
     category_name = models.CharField(max_length=100)
+    allocated_amount = models.DecimalField(max_digits=10,default=0.00)
+    
 
     def __str__(self) -> str:
         return self.category_name

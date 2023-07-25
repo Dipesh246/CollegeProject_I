@@ -49,6 +49,8 @@ def register(request):
         last_name = request.POST.get('last-name')
         username =  request.POST.get('username')
         password = request.POST.get('password')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone')
         profile_picture = request.FILES.get('profile-picture')
 
         if User.objects.filter(username=username).exists():
@@ -59,7 +61,9 @@ def register(request):
             username=username,
             password=password,
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
+            email= email,
+            phone_number=phone_number
         )
         if profile_picture:
             user.profile_picture = profile_picture
@@ -76,11 +80,30 @@ def dashboard(request):
     return render(request,'dashboard.html') 
 
 def budget(request):
+    return render(request,'expense.html')
+
+def saveBudget(request):
     if request.method == "POST":
+        budget_name =  request.POST.get('budget-name')
         monthly_income = request.POST.get('monthly-income')
-        total_expenses = request.POST.get('total-expenses')
-        category_name = request.POST.get('category-name')
         
+        budget = Budeget.objects.create(budget_name=budget_name,monthly_income=monthly_income)
+        budget.save()
+        return redirect('budget')
+    
+def saveCategory(request):
+    if request.method == "POST":
+        category_name = request.POST.get('category_name')
+        allocated_amount = request.POST.get('budget_amount')
 
-
-    return render(request, 'expense.html')
+        categories= Category.objects.create(category_name=category_name)
+        print(categories)
+        if allocated_amount:
+            category = request.POST.get('category')
+            categories= Category.objects.update(category=category,
+                                                allocated_amount=allocated_amount)
+        categories.save()
+        return redirect('budget')
+    
+    
+    

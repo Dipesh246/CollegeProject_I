@@ -135,4 +135,6 @@ AUTH_USER_MODEL = 'app.User'
 # settings.py
 
 LOGIN_URL = 'signin'
+SESSION_COOKIE_AGE = None
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
