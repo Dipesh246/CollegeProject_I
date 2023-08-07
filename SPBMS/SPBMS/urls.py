@@ -27,7 +27,9 @@ urlpatterns = [
     path('dashboard/',dashboard, name = 'dashboard'),
     path('checkunique/', checkUsername, name='checkunique'),
     path('createbudget/',budget, name='budget'),
-    path('savebudget/',saveBudget, name='savebudget'),
-    path('savecategory/',saveCategory, name='savecategory'),
+    path('savebudget/',saveBudget, name='savebudget'), # type: ignore
+    path('savecategory/',saveCategory, name='savecategory'), # type: ignore
+    path('spending/',spendings,name='spendings'),
+    path('report/',reports,name='report'),
     
 ]

@@ -1,0 +1,46 @@
+/* Add any additional styles you need for the spendings form */
+.spendings-form {
+  margin: 20px auto;
+  width: 90%;
+}
+
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.category-entry {
+  flex-basis: calc(25% - 20px); /* Four divs in a row */
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.category-entry h3 {
+  margin-top: 0;
+}
+
+.category-entry label,
+.category-entry p {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.category-entry input[type="date"],
+.category-entry input[type="number"] {
+  width: 90%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+button[type="submit"] {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

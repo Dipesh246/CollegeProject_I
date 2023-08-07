@@ -61,6 +61,7 @@ function updatePasswordRequirements() {
     const uppercaseRegex = /[A-Z]/;
     const lowercaseRegex = /[a-z]/;
     const numberRegex = /[0-9]/;
+    const characterRegex = /[!@#$%^&*]/
 
     if (password.length === 0) {
         passwordRequirements.textContent = '';
@@ -68,7 +69,8 @@ function updatePasswordRequirements() {
     } else if (
         uppercaseRegex.test(password) &&
         lowercaseRegex.test(password) &&
-        numberRegex.test(password)
+        numberRegex.test(password)&&
+        characterRegex.test(password)
     ) {
         passwordRequirements.textContent = 'Password meets the requirements.';
         passwordRequirements.style.color = 'green';
