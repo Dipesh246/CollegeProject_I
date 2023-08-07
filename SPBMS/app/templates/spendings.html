@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/spendings.css' %}">
+{% endblock %}
+{% block headerh1 %}
+Daily Spendings
+{% endblock headerh1%}
+
+{% block start %}
+<div class="spendings-form">
+  
+  <form method="POST">
+    {% csrf_token %}
+    <div class="category-container">
+      {% for category in categories %}
+      <div class="category-entry">
+        <h3>{{ category.category_name }}</h3>
+        <label for="spending-date-{{ category.category_name }}">Date:</label>
+        <input type="date" id="spending-date-{{ category.category_name }}" name="{{ category.category_name }}_date" >
+      
+        <label for="spending-amount-{{ category.category_name }}">Spent Amount:</label>
+        <input type="number" id="spending-amount-{{ category.category_name }}" name="{{ category.category_name }}_amount" placeholder="Enter amount spent" >
+      
+        <p>Allocated Amount: ${{ category.allocated_amount }}</p>
+         
+      </div>
+      {% endfor %}
+    </div>
+    
+    <button type="submit">Submit</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,25 +1,14 @@
 <!-- dashboard.html -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Student Budget Dashboard</title>
-  <link rel="stylesheet" type="text/css" href="dashboardstyle.css">
-</head>
-<body>
-  <header>
-    <h1>Student Budget Dashboard</h1>
-    <nav>
-      <ul class="menu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Expenses</a></li>
-        <li><a href="#">Savings</a></li>
-        <li><a href="#">Reports</a></li>
-        <li><a href="#">Settings</a></li>
-      </ul>
-    </nav>
-    
-    <button id="logout-button">Logout</button>
-  </header>
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboardstyle.css' %}">
+{% endblock style%}
+{% block start %}
+{% block headerh1 %}
+  Dashboard
+{% endblock headerh1 %}
   <main>
     <div class="container">
       <div class="card total-budget-card">
@@ -37,6 +26,6 @@
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="dashboardscript.js"></script>
-</body>
-</html>
+  <script src="{% static 'js/dashboardscript.js' %}"></script>
+
+{% endblock start %}

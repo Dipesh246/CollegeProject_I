@@ -1,0 +1,20 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock style %}
+{% block start %}
+  <main>
+    <section class="hero">
+      <h2>Manage Your Student Budget</h2>
+      <p>Take control of your finances with our pocket budget management system.</p>
+      <a href="{% url 'signin' %}" class="btn">Get Started</a>
+    </section>
+    <section class="description">
+      <h2>About Us</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at pulvinar tellus. Sed scelerisque risus a sem scelerisque, sed venenatis risus fringilla.</p>
+    </section>
+  </main>
+{%endblock %}

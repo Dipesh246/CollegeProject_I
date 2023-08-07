@@ -1,5 +1,5 @@
 .venv
-/dashboard.html
-/dashboardstyle.css
-/dashboardscript.js
+*__pycache__/
+**/migrations/__pycache__/
+
 

@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Pocket Budget Management System</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+  {% block style %}
+  {% endblock %}
+</head>
+<body>
+  <header>
+    {% if user.is_authenticated %}
+    <nav>
+      <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+        <h1>{% block headerh1 %}
+        {% endblock headerh1 %}
+        </h1>
+      </div>
+      <ul class="menu">
+        <li><a href="{% url 'dashboard' %}">Home</a></li>
+        <li><a href="{% url 'budget' %}">Budget</a></li>
+        <li><a href="{% url 'spendings' %}">Spendings</a></li>
+        <li><a href="{% url 'report' %}">Reports</a></li>
+        
+      </ul>
+      <a href="{% url 'logout' %}" class="logout-link" >Logout</a>
+    </nav>
+    
+    
+  
+    {% else %}
+  
+    <nav>
+      <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+        <h1>Student Budget</h1>
+      </div>
+      <div class="buttons">
+        <a href="{% url 'signin' %}" class="btn">Sign In</a>
+        <a href="{% url 'register' %}" class="btn">Register</a>
+      </div>
+    </nav>
+  {% endif %}
+</header>
+
+
+  {% block start %}
+  
+  {% endblock  %}
+</body>
+</html>
