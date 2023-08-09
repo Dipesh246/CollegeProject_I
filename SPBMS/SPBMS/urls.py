@@ -30,6 +30,6 @@ urlpatterns = [
     path('savebudget/',saveBudget, name='savebudget'), # type: ignore
     path('savecategory/',saveCategory, name='savecategory'), # type: ignore
     path('spending/',spendings,name='spendings'),
-    path('report/',reports,name='report'),
+    path('report/',budget_reports,name='report'),
     
 ]

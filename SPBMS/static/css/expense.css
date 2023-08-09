@@ -35,6 +35,7 @@ main {
 }
 
 .budget-form input[type="number"],
+.budget-form input[type = "date"]
 .category-form input[type="text"],
 .budget-allocation-form input[type="number"],
 .budget-allocation-form select {

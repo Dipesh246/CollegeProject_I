@@ -1,21 +1,23 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const addCategoryBtn = document.getElementById('add-category-btn');
-  const categoryNameInput = document.getElementById('category-name');
-  const categorySelect = document.getElementById('category');
 
-  addCategoryBtn.addEventListener('click', function() {
-    const newCategory = categoryNameInput.value.trim();
+  document.addEventListener('DOMContentLoaded', function() {
+    const budgetNameInput = document.getElementById('budget-name');
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
 
-    // Check if the new category is not empty and not already in the select options
-    if (newCategory && !categorySelect.querySelector(`[value="${newCategory}"]`)) {
-      // Create a new option element and append it to the select element
-      const option = document.createElement('option');
-      option.value = newCategory;
-      option.textContent = newCategory;
-      categorySelect.appendChild(option);
+    budgetNameInput.addEventListener('input', function () {
+      if (budgetNameInput.value.toLowerCase() === 'monthly budget') {
+        const currentDate = new Date().toISOString().split('T')[0];
+        startDateInput.value = currentDate;
+        const nextMonthDate = new Date();
+        nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+        endDateInput.value = nextMonthDate.toISOString().split('T')[0];
+      }
+    });
 
-      // Clear the input field after adding the category
-      categoryNameInput.value = '';
-    }
+    startDateInput.addEventListener('input', function () {
+      const startDate = new Date(startDateInput.value);
+      const endDate = new Date(startDate);
+      endDate.setMonth(endDate.getMonth() + 1);
+      endDateInput.value = endDate.toISOString().split('T')[0];
+    });
   });
-});

@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import *
 from django.urls import reverse
 import decimal
+from django.db.models import Sum
 
 
 def home(request):
@@ -96,12 +97,24 @@ def saveBudget(request):
     if request.method == "POST":
         budget_name =  request.POST.get('budget-name')
         monthly_income = request.POST.get('monthly-income')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+
         
-        budget = Budeget.objects.create(user=current_user,
-                                        budget_name=budget_name,
-                                        monthly_income=monthly_income)
-        budget.save()
-        return redirect('budget')
+        budget = Budeget.objects.filter(budget_name=budget_name)
+        if budget:
+            Budeget.objects.filter(budget_name=budget_name).update(monthly_income=monthly_income,
+                                                                                   start_date=start_date,
+                                                                                   end_date=end_date)
+            return redirect('budget')
+        else:    
+            budget = Budeget.objects.create(user=current_user,
+                                            budget_name=budget_name,
+                                            monthly_income=monthly_income,
+                                            start_date=start_date,
+                                            end_date=end_date)
+            budget.save()
+            return redirect('budget')
     
 def saveCategory(request):
     if request.method == "POST":
@@ -152,10 +165,30 @@ def spendings(request):
         return render(request,'spendings.html',context)    
     
     
-def reports(request):
+def budget_reports(request):
     spendings = Expense.objects.all()
+    savings_data = []
+    budgets = Budeget.objects.all()
+    for budget in budgets:
+        categories = Category.objects.all()
+
+        
+        for category in categories:
+            total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum']or 0
+            allocated_amount = category.allocated_amount
+            savings = allocated_amount - total_spendings
+            savings_data.append({
+                'category':category.category_name,
+                'allocated_amount':allocated_amount,
+                'total_spending':total_spendings,
+                'savings':savings,
+            })
+
+            
     
-    context = {'spendings':spendings}
+    context = {'spendings':spendings,
+               'savings_data':savings_data}
+    print(context)
     return render(request,'reports.html',context)    
     
     
