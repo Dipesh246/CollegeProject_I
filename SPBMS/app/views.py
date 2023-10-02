@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
 from django.urls import reverse
-import decimal
+import decimal,json
 from django.db.models import Sum
 
 
@@ -77,17 +77,43 @@ def register(request):
 
     return render(request,'Registration.html')
 
+
+
 @login_required(login_url='/login/')
 def dashboard(request):
-    return render(request,'dashboard.html') 
+    total_savings = 0
+    data = []
+    budgets = Budeget.objects.all()
+    
+    for budget in budgets:
+        categories = Category.objects.filter(budget=budget)
+
+        for category in categories:
+            total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum'] or 0
+            allocated_amount = category.allocated_amount
+            savings = allocated_amount - total_spendings
+            total_savings +=savings
+            data.append({
+                'category':category.category_name,
+                'total_spendings':float(total_spendings),
+                'total_savings':float(total_savings)
+            })
+    budgets_json = json.dumps([{'name': budget.budget_name, 'total_budget': float(budget.monthly_income)} for budget in budgets])
+    # print(budgets_json)
+    # print(json.dumps(data))       
+
+    context = {
+        'budgets_data_json': budgets_json,
+        'data_json': json.dumps(data),
+    }
+    
+
+    return render(request,'dashboard.html',context) 
 
 def budget(request):
     user_budgets = Budeget.objects.filter(user = request.user)
     categories = Category.objects.all()
-    # categories = Category.objects.filter(budget = user_budgets)
-    # print('qry: ', categories.query)
-    # categories = Category.objects.filter(budget__user = request.user)
-    # print('cat: ', categories)
+    
     return render(request, 'expense.html',{'user_budgets':user_budgets,
                                            'categories':categories})
     
@@ -100,21 +126,24 @@ def saveBudget(request):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
 
-        
-        budget = Budeget.objects.filter(budget_name=budget_name)
-        if budget:
-            Budeget.objects.filter(budget_name=budget_name).update(monthly_income=monthly_income,
-                                                                                   start_date=start_date,
-                                                                                   end_date=end_date)
+        if decimal.Decimal(monthly_income)<1000:
+            messages.error(request,"Budget amount must be more then Rs. 1000")
             return redirect('budget')
-        else:    
-            budget = Budeget.objects.create(user=current_user,
-                                            budget_name=budget_name,
-                                            monthly_income=monthly_income,
-                                            start_date=start_date,
-                                            end_date=end_date)
-            budget.save()
-            return redirect('budget')
+        else:
+            budget = Budeget.objects.filter(budget_name=budget_name)
+            if budget:
+                Budeget.objects.filter(budget_name=budget_name).update(monthly_income=monthly_income,
+                                                                                    start_date=start_date,
+                                                                                    end_date=end_date)
+                return redirect('budget')
+            else:    
+                budget = Budeget.objects.create(user=current_user,
+                                                budget_name=budget_name,
+                                                monthly_income=monthly_income,
+                                                start_date=start_date,
+                                                end_date=end_date)
+                budget.save()
+                return redirect('budget')
     
 def saveCategory(request):
     if request.method == "POST":
@@ -170,10 +199,11 @@ def budget_reports(request):
     savings_data = []
     budgets = Budeget.objects.all()
     for budget in budgets:
-        categories = Category.objects.all()
+        categories = Category.objects.filter(budget=budget)
 
         
         for category in categories:
+            print(category)
             total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum']or 0
             allocated_amount = category.allocated_amount
             savings = allocated_amount - total_spendings
@@ -188,7 +218,7 @@ def budget_reports(request):
     
     context = {'spendings':spendings,
                'savings_data':savings_data}
-    print(context)
+    # print(context)
     return render(request,'reports.html',context)    
     
     
