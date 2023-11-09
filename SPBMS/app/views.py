@@ -7,6 +7,7 @@ from .models import *
 from django.urls import reverse
 import decimal,json
 from django.db.models import Sum
+from django.contrib.auth.forms import PasswordResetForm
 
 
 def home(request):
@@ -27,7 +28,7 @@ def logIn(request):
         user = authenticate(username=username,password=password)
 
         if user is None:
-            messages.error(request, 'Invalid password')
+            messages.error(request, 'Invalid username or password')
             return redirect('signin')
         
         else:
@@ -219,7 +220,22 @@ def budget_reports(request):
     context = {'spendings':spendings,
                'savings_data':savings_data}
     # print(context)
-    return render(request,'reports.html',context)    
-    
+    return render(request,'reports.html',context) 
+
+def forgetPassword(request):
+    form = PasswordResetForm(request.POST or None)
+    if request.method =="POST":
+        
+        if form.is_valid():
+            form.save(request=request)
+            messages.success(request,'Password Reset email sent. Please check your email.')
+            return redirect('signin')
+        else:
+            print("entered")
+            form = PasswordResetForm()
+
+    return render(request, 'forgetpassword.html', {'form':form})
+
+
     
     

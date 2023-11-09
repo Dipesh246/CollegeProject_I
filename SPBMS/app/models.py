@@ -8,6 +8,7 @@ class User(AbstractUser):
     phone_number = models.BigIntegerField(blank=True,null=True)
     groups = models.ManyToManyField(Group, related_name='app_users')
     user_permissions = models.ManyToManyField(Permission, related_name='app_users')
+    path_to_profile_picture= models.CharField(max_length=254,blank=True, null=True)
 
     def __str__(self) -> str:
         return self.username
