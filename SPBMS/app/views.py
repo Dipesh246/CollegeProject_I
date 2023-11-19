@@ -68,6 +68,8 @@ def register(request):
             email= email,
             phone_number=phone_number
         )
+        user.set_password(password)
+        
         if profile_picture:
             user.profile_picture = profile_picture
 
