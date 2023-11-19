@@ -1,14 +1,16 @@
 <!-- dashboard.html -->
 {% extends 'base.html' %}
 {% load static %}
-{% block style %}
 
+{% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/dashboardstyle.css' %}">
 {% endblock style%}
-{% block start %}
+
 {% block headerh1 %}
   Dashboard
 {% endblock headerh1 %}
+
+{% block start %}
   <main>
     <div class="container">
       <div class="card total-budget-card">
