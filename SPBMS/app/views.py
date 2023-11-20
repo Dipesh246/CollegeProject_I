@@ -26,6 +26,7 @@ def logIn(request):
             return redirect('signin')
         
         user = authenticate(username=username,password=password)
+        # print(user)
 
         if user is None:
             messages.error(request, 'Invalid username or password')
@@ -69,7 +70,6 @@ def register(request):
             phone_number=phone_number
         )
         user.set_password(password)
-        
         if profile_picture:
             user.profile_picture = profile_picture
 
