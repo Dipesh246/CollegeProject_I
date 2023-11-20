@@ -77,12 +77,12 @@ WSGI_APPLICATION = 'SPBMS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'spbms_db',
-        "USER": 'postgres',
-        "PASSWORD": 'admin',
+        "USER": 'root',
+        "PASSWORD": 'Admin123$',
         "HOST": 'localhost',
-        "PORT": 5432,
+        "PORT": 3306,
     }
 }
 
