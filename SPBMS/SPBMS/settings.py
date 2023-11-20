@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'spbms_db',
         "USER": 'root',
         "PASSWORD": 'Admin123$',
-        "HOST": 'localhost',
+        "HOST": 'Dipesh246.mysql.pythonanywhere-services.com',
         "PORT": 3306,
     }
 }
