@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser,Group, Permission
+from django.utils import timezone
 
 class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_picture/', blank=True)
@@ -7,6 +8,7 @@ class User(AbstractUser):
     phone_number = models.BigIntegerField(blank=True,null=True)
     groups = models.ManyToManyField(Group, related_name='app_users')
     user_permissions = models.ManyToManyField(Permission, related_name='app_users')
+    path_to_profile_picture= models.CharField(max_length=254,blank=True, null=True)
 
     def __str__(self) -> str:
         return self.username
@@ -15,7 +17,8 @@ class Budeget(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     budget_name = models.CharField(max_length=100,default=None)
     monthly_income = models.DecimalField(max_digits=10,decimal_places=2)
-    
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now)
     
     def __str__(self) -> str:
         return self.budget_name

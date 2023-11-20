@@ -1,9 +1,10 @@
-<!-- dashboard.html -->
 {% extends 'base.html' %}
 {% load static %}
 
 {% block style %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/dashboardstyle.css' %}">
+
 {% endblock style%}
 
 {% block headerh1 %}
@@ -13,15 +14,15 @@
 {% block start %}
   <main>
     <div class="container">
-      <div class="card total-budget-card">
+      <div class="card total-budget-card" data-budgets="{{ budgets_data_json }}">
         <h2>Total Budget</h2>
         <canvas></canvas>
       </div>
-      <div class="card expenses-card">
+      <div class="card expenses-card" data-expenses="{{ data_json }}">
         <h2>Expenses</h2>
         <canvas></canvas>
       </div>
-      <div class="card savings-card">
+      <div class="card savings-card" data-savings="{{ data_json }}">
         <h2>Savings</h2>
         <canvas></canvas>
       </div>
@@ -29,5 +30,4 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{% static 'js/dashboardscript.js' %}"></script>
-
 {% endblock start %}

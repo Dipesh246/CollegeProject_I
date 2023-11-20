@@ -138,3 +138,17 @@ LOGIN_URL = 'signin'
 SESSION_COOKIE_AGE = 3600 *2
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+# settings.py
+
+# Email backend (SMTP)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP server configuration
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True  
+EMAIL_USE_SSL = False 
+EMAIL_HOST_USER = 'merakitechs.np@gmail.com'  
+EMAIL_HOST_PASSWORD = 'tmsdupveaoazfvzl'  
+
+

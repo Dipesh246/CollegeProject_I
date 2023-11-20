@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
 from django.urls import reverse
-import decimal
+import decimal,json
+from django.db.models import Sum
+from django.contrib.auth.forms import PasswordResetForm
 
 
 def home(request):
@@ -27,7 +29,7 @@ def logIn(request):
         # print(user)
 
         if user is None:
-            messages.error(request, 'Invalid password')
+            messages.error(request, 'Invalid username or password')
             return redirect('signin')
         
         else:
@@ -68,7 +70,6 @@ def register(request):
             phone_number=phone_number
         )
         user.set_password(password)
-
         if profile_picture:
             user.profile_picture = profile_picture
 
@@ -79,17 +80,43 @@ def register(request):
 
     return render(request,'Registration.html')
 
+
+
 @login_required(login_url='/login/')
 def dashboard(request):
-    return render(request,'dashboard.html') 
+    total_savings = 0
+    data = []
+    budgets = Budeget.objects.all()
+    
+    for budget in budgets:
+        categories = Category.objects.filter(budget=budget)
+
+        for category in categories:
+            total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum'] or 0
+            allocated_amount = category.allocated_amount
+            savings = allocated_amount - total_spendings
+            total_savings +=savings
+            data.append({
+                'category':category.category_name,
+                'total_spendings':float(total_spendings),
+                'total_savings':float(total_savings)
+            })
+    budgets_json = json.dumps([{'name': budget.budget_name, 'total_budget': float(budget.monthly_income)} for budget in budgets])
+    # print(budgets_json)
+    # print(json.dumps(data))       
+
+    context = {
+        'budgets_data_json': budgets_json,
+        'data_json': json.dumps(data),
+    }
+    
+
+    return render(request,'dashboard.html',context) 
 
 def budget(request):
     user_budgets = Budeget.objects.filter(user = request.user)
     categories = Category.objects.all()
-    # categories = Category.objects.filter(budget = user_budgets)
-    # print('qry: ', categories.query)
-    # categories = Category.objects.filter(budget__user = request.user)
-    # print('cat: ', categories)
+    
     return render(request, 'expense.html',{'user_budgets':user_budgets,
                                            'categories':categories})
     
@@ -99,12 +126,27 @@ def saveBudget(request):
     if request.method == "POST":
         budget_name =  request.POST.get('budget-name')
         monthly_income = request.POST.get('monthly-income')
-        
-        budget = Budeget.objects.create(user=current_user,
-                                        budget_name=budget_name,
-                                        monthly_income=monthly_income)
-        budget.save()
-        return redirect('budget')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+
+        if decimal.Decimal(monthly_income)<1000:
+            messages.error(request,"Budget amount must be more then Rs. 1000")
+            return redirect('budget')
+        else:
+            budget = Budeget.objects.filter(budget_name=budget_name)
+            if budget:
+                Budeget.objects.filter(budget_name=budget_name).update(monthly_income=monthly_income,
+                                                                                    start_date=start_date,
+                                                                                    end_date=end_date)
+                return redirect('budget')
+            else:    
+                budget = Budeget.objects.create(user=current_user,
+                                                budget_name=budget_name,
+                                                monthly_income=monthly_income,
+                                                start_date=start_date,
+                                                end_date=end_date)
+                budget.save()
+                return redirect('budget')
     
 def saveCategory(request):
     if request.method == "POST":
@@ -155,11 +197,47 @@ def spendings(request):
         return render(request,'spendings.html',context)    
     
     
-def reports(request):
+def budget_reports(request):
     spendings = Expense.objects.all()
+    savings_data = []
+    budgets = Budeget.objects.all()
+    for budget in budgets:
+        categories = Category.objects.filter(budget=budget)
+
+        
+        for category in categories:
+            print(category)
+            total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum']or 0
+            allocated_amount = category.allocated_amount
+            savings = allocated_amount - total_spendings
+            savings_data.append({
+                'category':category.category_name,
+                'allocated_amount':allocated_amount,
+                'total_spending':total_spendings,
+                'savings':savings,
+            })
+
+            
     
-    context = {'spendings':spendings}
-    return render(request,'reports.html',context)    
-    
+    context = {'spendings':spendings,
+               'savings_data':savings_data}
+    # print(context)
+    return render(request,'reports.html',context) 
+
+def forgetPassword(request):
+    form = PasswordResetForm(request.POST or None)
+    if request.method =="POST":
+        
+        if form.is_valid():
+            form.save(request=request)
+            messages.success(request,'Password Reset email sent. Please check your email.')
+            return redirect('signin')
+        else:
+            print("entered")
+            form = PasswordResetForm()
+
+    return render(request, 'forgetpassword.html', {'form':form})
+
+
     
     

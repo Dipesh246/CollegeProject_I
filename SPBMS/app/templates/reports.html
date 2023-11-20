@@ -4,10 +4,12 @@
 {% block style %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/reports.css' %}">
 {% endblock %}
-
+{% block headerh1 %}
+Reports
+{% endblock headerh1 %}
 {% block start %}
 <div class="reports-container">
-  <h2>Reports</h2>
+  
   
   <div class="spendings-report">
     <h3>Spendings Report</h3>
@@ -38,17 +40,19 @@
     <table>
       <thead>
         <tr>
-          <th>Date</th>
           <th>Category</th>
-          <th>Amount</th>
+          <th>Allocated Amount</th>
+          <th>Total Spending</th>
+          <th>Savings</th>
         </tr>
       </thead>
       <tbody>
-        {% for saving in savings %}
+        {% for saving in savings_data %}
         <tr>
-          <td>{{ saving.date }}</td>
-          <td>{{ saving.category.category_name }}</td>
-          <td>${{ saving.amount }}</td>
+          <td>{{ saving.category }}</td>
+          <td>Rs.{{ saving.allocated_amount }}</td>
+          <td>Rs.{{ saving.total_spending }}</td>
+          <td>Rs.{{ saving.savings }}</td>
         </tr>
         {% endfor %}
       </tbody>
