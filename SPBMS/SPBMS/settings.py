@@ -78,12 +78,20 @@ WSGI_APPLICATION = 'SPBMS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Dipesh246$spbms_db',
-        "USER": 'Dipesh246',
+        'NAME': 'spbms_db',
+        "USER": 'root',
         "PASSWORD": 'Admin123$',
-        "HOST": 'Dipesh246.mysql.pythonanywhere-services.com',
+        "HOST": 'localhost',
         "PORT": 3306,
-    }
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'Dipesh246$spbms_db',
+    #     "USER": 'Dipesh246',
+    #     "PASSWORD": 'Admin123$',
+    #     "HOST": 'Dipesh246.mysql.pythonanywhere-services.com',
+    #     "PORT": 3306,
+    # }
 }
 
 
@@ -122,9 +130,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    # os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Default primary key field type
