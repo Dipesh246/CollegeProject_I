@@ -79,7 +79,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'spbms_db',
-        "USER": 'root',
+        "USER": 'Dipesh246',
         "PASSWORD": 'Admin123$',
         "HOST": 'Dipesh246.mysql.pythonanywhere-services.com',
         "PORT": 3306,
