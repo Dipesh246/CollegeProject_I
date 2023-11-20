@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'SPBMS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'spbms_db',
+        'NAME': 'Dipesh246$spbms_db',
         "USER": 'Dipesh246',
         "PASSWORD": 'Admin123$',
         "HOST": 'Dipesh246.mysql.pythonanywhere-services.com',
