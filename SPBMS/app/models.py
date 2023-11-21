@@ -26,7 +26,7 @@ class Budeget(models.Model):
 class Category(models.Model):
     budget = models.ForeignKey(Budeget,on_delete=models.CASCADE)
     category_name = models.CharField(max_length=100)
-    allocated_amount = models.DecimalField(max_digits=10,decimal_places=2)
+    allocated_amount = models.DecimalField(max_digits=10,decimal_places=2,null=True)
     
 
     def __str__(self) -> str:

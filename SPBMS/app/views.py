@@ -94,7 +94,10 @@ def dashboard(request):
         for category in categories:
             total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum'] or 0
             allocated_amount = category.allocated_amount
-            savings = allocated_amount - total_spendings
+            if allocated_amount==None:
+                savings = total_spendings
+            else:    
+                savings = allocated_amount - total_spendings
             total_savings +=savings
             data.append({
                 'category':category.category_name,
@@ -160,10 +163,13 @@ def saveCategory(request):
         if category_name:
             category= Category.objects.create(category_name=category_name, budget = user_budget)
             # print('qry: ', category.query)
+            category.save()
         
         if allocated_amount:
             category_name = request.POST.get('category')
             category = Category.objects.filter(category_name=category_name).update(allocated_amount=allocated_amount)
+        else:
+            category = Category.objects.filter(category_name=category_name).update(allocated_amount=0)
         
         
 
@@ -182,14 +188,17 @@ def spendings(request):
                 
                 if last_expense:
                     reamining_amount  = last_expense.remaining_amount - amount
+                elif category.allocated_amount==None:
+                    reamining_amount = decimal.Decimal(amount)
                 else:
-                    reamining_amount = category.allocated_amount - decimal.Decimal(amount)
+                    reamining_amount = category.allocated_amount - decimal.Decimal(amount)    
 
                 expense = Expense.objects.create(budget = category.budget,
                                                  category = category,
                                                  remaining_amount=reamining_amount,
                                                  amount = amount,
                                                  date = date)
+                expense.save()
 
         return redirect('spendings') 
     else:       
@@ -209,7 +218,10 @@ def budget_reports(request):
             print(category)
             total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum']or 0
             allocated_amount = category.allocated_amount
-            savings = allocated_amount - total_spendings
+            if allocated_amount==None:
+                savings = total_spendings
+            else:    
+                savings = allocated_amount - total_spendings
             savings_data.append({
                 'category':category.category_name,
                 'allocated_amount':allocated_amount,
