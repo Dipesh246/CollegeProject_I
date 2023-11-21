@@ -187,7 +187,7 @@ def spendings(request):
                 last_expense = Expense.objects.filter(category=category).last()
                 
                 if last_expense:
-                    reamining_amount  = last_expense.remaining_amount - amount
+                    reamining_amount  = last_expense.remaining_amount - decimal.Decimal(amount)
                 elif category.allocated_amount==None:
                     reamining_amount = decimal.Decimal(amount)
                 else:
