@@ -105,6 +105,14 @@
             ${{ category.allocated_amount }}<br>
             {% endfor %}
           </td>
+          <td>
+            {% for category in budget.category_set.all %}
+              <form method="post" action="{% url 'delete_category' category.id %}" class="delete-form">
+                {% csrf_token %}
+                <input type="submit" value="Delete" class="delete-button">
+              </form>
+              {% endfor %}
+          </td>
         </tr>
         {% endfor %}
       </tbody>

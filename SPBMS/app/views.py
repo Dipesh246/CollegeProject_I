@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login ,logout
 from django.contrib.auth.decorators import login_required
@@ -224,9 +224,7 @@ def budget_reports(request):
                 'allocated_amount':allocated_amount,
                 'total_spending':total_spendings,
                 'savings':savings,
-            })
-
-            
+            })            
     
     context = {'spendings':spendings,
                'savings_data':savings_data}
@@ -246,6 +244,9 @@ def forgetPassword(request):
 
     return render(request, 'forgetpassword.html', {'form':form})
 
-
+def deleteCategory(request,category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    category.delete()
+    return redirect('budget')
     
     

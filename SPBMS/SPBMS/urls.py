@@ -38,5 +38,6 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='passwordresetform.html'), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='passwordResetDone.html'), name='password_reset_complete'),
+    path('deletecategory/<int:category_id>/',deleteCategory, name='delete_category'),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
