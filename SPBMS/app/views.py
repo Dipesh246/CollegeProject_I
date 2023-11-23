@@ -86,8 +86,9 @@ def register(request):
 def dashboard(request):
     total_savings = 0
     data = []
-    budgets = Budeget.objects.all()
-    
+    user = request.user
+    budgets = Budeget.objects.filter(user=user)
+
     for budget in budgets:
         categories = Category.objects.filter(budget=budget)
 
@@ -105,8 +106,6 @@ def dashboard(request):
                 'total_savings':float(total_savings)
             })
     budgets_json = json.dumps([{'name': budget.budget_name, 'total_budget': float(budget.monthly_income)} for budget in budgets])
-    # print(budgets_json)
-    # print(json.dumps(data))       
 
     context = {
         'budgets_data_json': budgets_json,
@@ -162,7 +161,6 @@ def saveCategory(request):
         
         if category_name:
             category= Category.objects.create(category_name=category_name, budget = user_budget)
-            # print('qry: ', category.query)
             category.save()
         
         if allocated_amount:
@@ -207,15 +205,14 @@ def spendings(request):
     
     
 def budget_reports(request):
-    spendings = Expense.objects.all()
+    user = request.user
     savings_data = []
-    budgets = Budeget.objects.all()
+    budgets = Budeget.objects.filter(user=user)
     for budget in budgets:
         categories = Category.objects.filter(budget=budget)
 
         
         for category in categories:
-            print(category)
             total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum']or 0
             allocated_amount = category.allocated_amount
             if allocated_amount==None:
@@ -233,7 +230,6 @@ def budget_reports(request):
     
     context = {'spendings':spendings,
                'savings_data':savings_data}
-    # print(context)
     return render(request,'reports.html',context) 
 
 def forgetPassword(request):

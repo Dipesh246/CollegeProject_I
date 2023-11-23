@@ -7,20 +7,21 @@
 {% endblock style %}
 {% block start %}
   <main>
-    <section class="hero">
+    <section class="hero" style="background-image: url('{% static "images/budget2.jpg" %}'); background-repeat: no-repeat; background-size: cover;">
       <div class="hero-content">
           <h2>Manage Your Budget</h2>
           <p>Take control of your finances with our pocket budget management system.</p>
-          <a href="{% url 'signin' %}" class="btn">Get Started</a>
+          <a href="{% url 'signin' %}" class="btn" style="color: yellow;">Get Started</a>
       </div>
-      <div class="background-img"></div>
-  </section>
+    </section>
   
     <section class="description">
-      <h2 style="text-align: center">Student Pocket Budget Management System </h2>
-      <p style="text-align: center">The Student Pocket Budget Management System (SPBMS) is to automate the entire processes of the budget management life cycle of an Student. 
+      <h2 >Student Pocket Budget Management System </h2>
+      <p >The Student Pocket Budget Management System (SPBMS) is to automate the entire processes of the budget management life cycle of an Student. 
         With this Student Pocket Budget Management System, individual can plan and track their budgets with ease, and get a real-time overview of the financial performance. 
         This system helps companies in combine budgeting, strategic planning, and rolling forecasts while consolidating projects/companies and business departments within one comprehensive corporate performance management platform.
+      </p>
+      <p>
         This Student Pocket Budget Management System enables decision makers to determine allocation of resources among its branches. 
         Budgeting system also contributes to strategic decision making, future planning, paperless operations, realistic budgeting and comprehensive budget resource management.
         The application has been well planned and developed with the best software practices in the industry. Also, the application will follow the Software as a Service (SAAS) model.
