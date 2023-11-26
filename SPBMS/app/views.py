@@ -8,6 +8,7 @@ from django.urls import reverse
 import decimal,json
 from django.db.models import Sum
 from django.contrib.auth.forms import PasswordResetForm
+from django.utils.datetime_safe import datetime
 
 
 def home(request):
@@ -178,15 +179,16 @@ def saveCategory(request):
     
 def spendings(request):
     user = request.user
-    budget = Budeget.objects.filter(user = user)
+    budget = Budeget.objects.filter(user = user).first()
     categories = Category.objects.filter(budget=budget)
 
     if request.method == "POST":
         for category in categories:
             date = request.POST.get(f'{category.category_name}_date')
             amount = request.POST.get(f'{category.category_name}_amount')
-            budget = Budeget.objects.get(id=category.budget)
-            if (budget.start_date<=date<=budget.end_date) and amount:
+            spending_date = datetime.strptime(date,'%Y-%m-%d').date()
+            budget = Budeget.objects.get(budget_name=category.budget)
+            if (budget.start_date<=spending_date<=budget.end_date) and amount:
                 last_expense = Expense.objects.filter(category=category).last()
                 
                 if last_expense:
