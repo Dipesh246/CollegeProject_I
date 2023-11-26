@@ -99,7 +99,7 @@ def dashboard(request):
             total_savings +=savings
             data.append({
                 'category':category.category_name,
-                'total_spendings':float(total_spendings),
+                'total_spendings':float(total_spendings), # type: ignore
                 'total_savings':float(total_savings)
             })
     budgets_json = json.dumps([{'name': budget.budget_name, 'total_budget': float(budget.monthly_income)} for budget in budgets])
@@ -186,27 +186,28 @@ def spendings(request):
         for category in categories:
             date = request.POST.get(f'{category.category_name}_date')
             amount = request.POST.get(f'{category.category_name}_amount')
-            spending_date = datetime.strptime(date,'%Y-%m-%d').date()
-            budget = Budeget.objects.get(budget_name=category.budget)
-            if (budget.start_date<=spending_date<=budget.end_date) and amount:
-                last_expense = Expense.objects.filter(category=category).last()
-                
-                if last_expense:
-                    reamining_amount  = last_expense.remaining_amount - decimal.Decimal(amount)
-                elif category.allocated_amount==None:
-                    reamining_amount = decimal.Decimal(amount)
+            if date and amount:
+                spending_date = datetime.strptime(date,'%Y-%m-%d').date()
+                budget = Budeget.objects.get(budget_name=category.budget)
+                if (budget.start_date<=spending_date<=budget.end_date):
+                    last_expense = Expense.objects.filter(category=category).last()
+                    
+                    if last_expense:
+                        reamining_amount  = last_expense.remaining_amount - decimal.Decimal(amount)
+                    elif category.allocated_amount==None:
+                        reamining_amount = decimal.Decimal(amount)
+                    else:
+                        reamining_amount = category.allocated_amount - decimal.Decimal(amount)
+
+                    expense = Expense.objects.create(budget = category.budget,
+                                                    category = category,
+                                                    remaining_amount=reamining_amount,
+                                                    amount = amount,
+                                                    date = date)
+                    expense.save()
                 else:
-                    reamining_amount = category.allocated_amount - decimal.Decimal(amount)
-
-                expense = Expense.objects.create(budget = category.budget,
-                                                 category = category,
-                                                 remaining_amount=reamining_amount,
-                                                 amount = amount,
-                                                 date = date)
-                expense.save()
-            else:
-                messages.error(request,"Invalid date. Date must be with in budget start and end date.")
-
+                    messages.error(request,"Invalid date. Date must be with in budget start and end date.")
+        
         return redirect('spendings') 
     else:       
         context = {"categories":categories}    
