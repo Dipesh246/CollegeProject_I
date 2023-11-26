@@ -186,7 +186,7 @@ def spendings(request):
         for category in categories:
             date = request.POST.get(f'{category.category_name}_date')
             amount = request.POST.get(f'{category.category_name}_amount')
-            spending_date = datetime.strptime(date,'%Y-%m-%d').date()
+            spending_date = datetime.strptime(date,'%m-%d-%Y').date()
             budget = Budeget.objects.get(budget_name=category.budget)
             if (budget.start_date<=spending_date<=budget.end_date) and amount:
                 last_expense = Expense.objects.filter(category=category).last()
