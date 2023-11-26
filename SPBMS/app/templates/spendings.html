@@ -9,6 +9,13 @@ Daily Spendings
 {% endblock headerh1%}
 
 {% block start %}
+
+{% if messages %}
+    {% for message in messages %}
+    <p style="color:red; text-align: center">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    
 <div class="spendings-form">
   
   <form method="POST">

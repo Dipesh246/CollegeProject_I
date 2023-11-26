@@ -14,19 +14,15 @@ def home(request):
     return render(request,'home.html')
 
 def logIn(request):
-    # data = request.POST
-    # print(data)
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # print(f'user:{username} pass: {password}')
 
         if not User.objects.filter(username=username).exists():
             messages.error(request,'Invalid username')
             return redirect('signin')
         
         user = authenticate(username=username,password=password)
-        # print(user)
 
         if user is None:
             messages.error(request, 'Invalid username or password')
@@ -158,14 +154,21 @@ def saveCategory(request):
 
         user_budget = Budeget.objects.filter(user = request.user , id = budget_id).first()
         
-        
         if category_name:
             category= Category.objects.create(category_name=category_name, budget = user_budget)
             category.save()
         
         if allocated_amount:
-            category_name = request.POST.get('category')
-            category = Category.objects.filter(category_name=category_name).update(allocated_amount=allocated_amount)
+            category_name=request.POST.get('category')
+            budget_id = Category.objects.get(category_name=category_name)
+            budget_amount = Budeget.objects.get(budget_name= budget_id.budget)
+            
+            if not decimal.Decimal(allocated_amount)> decimal.Decimal(budget_amount.monthly_income):
+                category_name = request.POST.get('category')
+                category = Category.objects.filter(category_name=category_name).update(allocated_amount=allocated_amount)
+            else:
+                messages.warning(request,"allocated amount can't be more than budget_amount")
+
         else:
             category = Category.objects.filter(category_name=category_name).update(allocated_amount=0)
         
@@ -174,14 +177,16 @@ def saveCategory(request):
         return redirect('budget')
     
 def spendings(request):
-    categories = Category.objects.all()
+    user = request.user
+    budget = Budeget.objects.filter(user = user)
+    categories = Category.objects.filter(budget=budget)
 
     if request.method == "POST":
         for category in categories:
             date = request.POST.get(f'{category.category_name}_date')
             amount = request.POST.get(f'{category.category_name}_amount')
-
-            if date and amount:
+            budget = Budeget.objects.get(id=category.budget)
+            if (budget.start_date<=date<=budget.end_date) and amount:
                 last_expense = Expense.objects.filter(category=category).last()
                 
                 if last_expense:
@@ -189,7 +194,7 @@ def spendings(request):
                 elif category.allocated_amount==None:
                     reamining_amount = decimal.Decimal(amount)
                 else:
-                    reamining_amount = category.allocated_amount - decimal.Decimal(amount)    
+                    reamining_amount = category.allocated_amount - decimal.Decimal(amount)
 
                 expense = Expense.objects.create(budget = category.budget,
                                                  category = category,
@@ -197,6 +202,8 @@ def spendings(request):
                                                  amount = amount,
                                                  date = date)
                 expense.save()
+            else:
+                messages.error(request,"Invalid date. Date must be with in budget start and end date.")
 
         return redirect('spendings') 
     else:       
@@ -210,7 +217,7 @@ def budget_reports(request):
     budgets = Budeget.objects.filter(user=user)
     for budget in budgets:
         categories = Category.objects.filter(budget=budget)
-
+        spendings = Expense.objects.filter(budget=budget)
         
         for category in categories:
             total_spendings = Expense.objects.filter(budget=budget,category=category,date__lte=budget.end_date).aggregate(Sum('amount'))['amount__sum']or 0
@@ -226,8 +233,9 @@ def budget_reports(request):
                 'savings':savings,
             })            
     
-    context = {'spendings':spendings,
+    context = {'spendings':spendings, # type: ignore
                'savings_data':savings_data}
+    print(context)
     return render(request,'reports.html',context) 
 
 def forgetPassword(request):

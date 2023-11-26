@@ -9,6 +9,32 @@ Reports
 {% endblock headerh1 %}
 {% block start %}
 <div class="reports-container">
+  
+  
+  <div class="spendings-report">
+    <h3>Spendings Report</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Spent Amount</th>
+          <th>Remaining Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for spending in spendings %}
+        <tr>
+          <td>{{ spending.date }}</td>
+          <td>{{ spending.category.category_name }}</td>
+          <td>Rs.{{ spending.amount }}</td>
+          <td>Rs.{{ spending.remaining_amount }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
   <div class="savings-report">
     <h3>Savings Report</h3>
     <table>
